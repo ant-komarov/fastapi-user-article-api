@@ -1,0 +1,9 @@
+.github
+.gitignore
+.idea
+venv/
+README.md
+.env.sample
+test.db
+User-article-api.postman_collection.json
+.pytest_cache

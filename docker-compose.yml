@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+
+  app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    command: >
+      sh -c "alembic revision --autogenerate -m "Commit" &&
+             alembic upgrade head &&
+             python create_db_data.py &&
+             python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+    env_file:
+     - .env
+    depends_on:
+      - db
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
