@@ -12,7 +12,7 @@ docker-compose up --build
 
 ## Testing (Pytest)
 
-For running pytest change _DATABASE_URL_ in **settings.py** and _sqlalchemy.url_ in **alembic.ini**
+For running pytest change _DATABASE_URL_ in **.env** to _sqlite:///./test.db_ and _sqlalchemy.url_ in **alembic.ini**
 ```shell
 pytest
 ```
