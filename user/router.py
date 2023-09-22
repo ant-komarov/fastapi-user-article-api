@@ -13,30 +13,23 @@ router = APIRouter(prefix="/users")
 
 
 @router.post("/sign-up", response_model=schemas.Token)
-def sign_up(
-        user: schemas.UserCreate,
-        service: AuthService = Depends()
-):
+def sign_up(user: schemas.UserCreate, service: AuthService = Depends()):
     return service.register_user(user)
 
 
 @router.post("/sign-in", response_model=schemas.Token)
 def sign_in(
-        form: OAuth2PasswordRequestForm = Depends(),
-        service: AuthService = Depends()
+    form: OAuth2PasswordRequestForm = Depends(), service: AuthService = Depends()
 ):
-    return service.authenticate_user(
-        form.username,
-        form.password
-    )
+    return service.authenticate_user(form.username, form.password)
 
 
 @router.get("/", response_model=List[schemas.User])
 def get_users(
-        age: int | None = None,
-        color: Color | None = None,
-        articles_num: int | None = None,
-        db: Session = Depends(get_db),
-        user: User = Depends(get_current_user)
+    age: int | None = None,
+    color: Color | None = None,
+    articles_num: int | None = None,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
 ):
     return crud.get_users(db=db, age=age, color=color, articles_num=articles_num)

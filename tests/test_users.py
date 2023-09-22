@@ -12,10 +12,10 @@ def client():
 
 
 USER_DATA = {
-        "username": "Sam",  # Change name before testing
-        "password": "john1234",
-        "age": 31
-    }
+    "username": "Sam",  # Change name before testing
+    "password": "john1234",
+    "age": 31,
+}
 AGE = 30
 
 
@@ -40,8 +40,7 @@ def test_get_users_with_param(client):
     db = SessionLocal()
     auth_service = AuthService(db=db)
     auth_token = auth_service.authenticate_user(
-        USER_DATA["username"],
-        USER_DATA["password"]
+        USER_DATA["username"], USER_DATA["password"]
     ).access_token
     headers = {"Authorization": f"Bearer {auth_token}"}
     response = client.get(f"/users/?age={AGE}", headers=headers)
@@ -54,4 +53,3 @@ def test_get_users_with_param(client):
     db.delete(user)
     db.commit()
     db.close()
-

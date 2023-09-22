@@ -35,15 +35,11 @@ class AuthService:
         validation_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
-            headers={
-                "WWW-Authenticate": "Bearer"
-            }
+            headers={"WWW-Authenticate": "Bearer"},
         )
         try:
             payload = jwt.decode(
-                token,
-                settings.SECRET_KEY_JWT,
-                algorithms=[settings.ALGORITHM]
+                token, settings.SECRET_KEY_JWT, algorithms=[settings.ALGORITHM]
             )
         except JWTError as ex:
             print(f"JWTError: {ex}")
@@ -68,13 +64,11 @@ class AuthService:
             "nbf": now,
             "exp": now + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
             "sub": str(user_data.id),
-            "user": user_data.model_dump()
+            "user": user_data.model_dump(),
         }
 
         token = jwt.encode(
-            payload,
-            settings.SECRET_KEY_JWT,
-            algorithm=settings.ALGORITHM
+            payload, settings.SECRET_KEY_JWT, algorithm=settings.ALGORITHM
         )
 
         return Token(access_token=token)
@@ -86,7 +80,7 @@ class AuthService:
         user = models.User(
             username=user_data.username,
             age=user_data.age,
-            password=self.hash_password(user_data.password)
+            password=self.hash_password(user_data.password),
         )
         self.db.add(user)
         self.db.commit()
@@ -97,11 +91,11 @@ class AuthService:
         validation_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid username or password",
-            headers={
-                "WWW-Authenticate": "Bearer"
-            }
+            headers={"WWW-Authenticate": "Bearer"},
         )
-        user = self.db.query(models.User).filter(models.User.username == username).first()
+        user = (
+            self.db.query(models.User).filter(models.User.username == username).first()
+        )
 
         if not user or not self.verify_password(password, user.password):
             raise validation_exception

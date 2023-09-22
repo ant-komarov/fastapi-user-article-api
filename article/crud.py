@@ -10,9 +10,7 @@ def get_articles(db: Session):
 
 def create_article(db: Session, article: schemas.ArticleCreate):
     db_article = models.Article(
-        text=article.text,
-        color=article.color,
-        user_id=article.user_id
+        text=article.text, color=article.color, user_id=article.user_id
     )
     db.add(db_article)
     db.commit()
