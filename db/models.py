@@ -16,7 +16,8 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(63), nullable=False, unique=True)
+    username = Column(String(63), nullable=False, unique=True)
+    password = Column(String(511), nullable=False)
     age = Column(Integer, nullable=False)
 
     articles = relationship("Article", back_populates="user")
@@ -27,7 +28,7 @@ class Article(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     text = Column(String(511), nullable=False)
-    color = Column(Enum(Color))
-    user_id = Column(Integer, ForeignKey("users.id"))
+    color = Column(Enum(Color), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
-    users = relationship("User", back_populates="article")
+    user = relationship("User", back_populates="articles")
