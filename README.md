@@ -4,6 +4,8 @@
 
 Docker must be already installed
 
+!!! Make .env file from .env.sample !!!
+
 ```shell
 git clone https://github.com/ant-komarov/fastapi-user-article-api
 cd fastapi-user-article-api
